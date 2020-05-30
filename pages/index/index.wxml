@@ -1,0 +1,44 @@
+<!-- index.wxml -->
+<view class="home-search">
+	<!-- 搜索 -->
+	<view class="search-container">
+		<view class="search-icon"></view>
+		<input type="text" placeholder="请输入搜索内容" disabled bindtap="bindNavChange" data-stype="search" placeholder-class="placeholder" class="search-input" />
+	</view>
+</view>
+
+<!-- banner -->
+<view class="banner-container">
+	<swiper class="banner" autoplay="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange="bannerChange">
+		<block wx:for="{{bannerList}}" wx:key="index">
+			<swiper-item bindtap="toArticleDetail" data-link="{{item.url}}" data-title="{{item.title}}">
+				<image mode="scaleToFill" src="{{item.imagePath}}"></image>
+				<view class="banner-title">{{item.title}}</view>
+			</swiper-item>
+		</block>
+	</swiper>
+	<view class="banner-indicator">{{bannerIndex+1}}/{{bannerList.length}}</view>
+</view>
+
+<!-- 首页文章列表 -->
+<view class="list">
+	<block wx:for="{{articleList.datas}}">
+		<view class="acticle" bindtap="toArticleDetail" data-link="{{item.link}}" data-title="{{item.title}}">
+			<view class="tags">
+				<view class="top" hidden="{{!item.isTop}}">置顶</view>
+				<view class="new" hidden="{{!item.fresh}}">新</view>
+				<view class="author">{{item.author||item.shareUser}}</view>
+				<view class="date">{{item.niceDate}}</view>
+			</view>
+			<view class="title">{{item.title}}</view>
+			<view class="tags">
+				<view class="author">{{item.superChapterName}} / {{item.chapterName}}</view>
+				<view class="love">
+					<icon class="iconfont icon-grey-love" style="color:red;" wx:if="{{item.collect}}"></icon>
+					<icon class="iconfont icon-grey-love" wx:else style="color:grey;"></icon>
+				</view>
+			</view>
+
+		</view>
+	</block>
+</view>
