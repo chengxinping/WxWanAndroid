@@ -1,1 +1,27 @@
 /* pages/wechat/wechat.wxss */
+page {
+	background-color: #fff;
+}
+
+
+.tab{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	background-color: #ffffff;
+	z-index: 99;
+	box-shadow: 0 0 20rpx -5rpx rgba(0, 0, 0, 0.1);
+}
+
+
+.swiper {
+	margin-top: 100rpx;
+	height: 100vh;
+}
+
+.scoll {
+	height: 100%;
+	-webkit-overflow-scrolling: touch;
+	background-color: white;
+}

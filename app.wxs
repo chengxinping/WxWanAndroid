@@ -1,0 +1,9 @@
+var formatHtml = function (str) {
+	str = str.toString()
+	var reg = getRegExp('<[^>]+>|&\w+;', 'g');
+	return str.replace(reg, "");
+}
+
+module.exports = {
+	formatHtml: formatHtml
+}
