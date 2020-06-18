@@ -27,9 +27,6 @@ Page({
 	getWechatTree: function () {
 
 		api.wechatTree().then(list => {
-			this.setData({
-				wechatTree: list
-			});
 			list.forEach((item, index) => {
 				this.data.swiperList[index] = {
 					datas: [],
@@ -37,13 +34,14 @@ Page({
 				}
 			})
 			this.setData({
+				wechatTree: list,
 				swiperList: this.data.swiperList
 			})
 			let cid = list[0].id
-			api.articleList(0, {
+			api.articleList(1, {
 				cid: cid
 			}).then(articleBody => {
-				this.saveSwiperList(0, articleBody)
+				this.saveSwiperList(0, articleBody, true)
 			})
 		})
 	},
@@ -60,7 +58,7 @@ Page({
 		}
 
 
-		this.getArticleList(0, id)
+		this.getArticleList(1, id,true)
 
 	},
 
@@ -76,19 +74,23 @@ Page({
 			return
 		}
 
-		this.getArticleList(0, id)
+		this.getArticleList(1, id, true)
 	},
 
-	getArticleList: function (page, id) {
+	getArticleList: function (page, id, isRefresh) {
 		api.articleList(page, {
 			cid: id
 		}).then(data => {
-			this.saveSwiperList(this.data.tabCur, data)
+			this.saveSwiperList(this.data.tabCur, data, isRefresh)
 		})
 	},
 
-	saveSwiperList: function (index, data) {
-		this.data.swiperList[index].datas.push(...data.datas)
+	saveSwiperList: function (index, data, isRefresh) {
+		if (isRefresh) {
+			this.data.swiperList[index].datas = data.datas
+		} else {
+			this.data.swiperList[index].datas.push(...data.datas)
+		}
 		this.data.swiperList[index].curPage = data.curPage
 		this.data.swiperList[index].pageCount = data.pageCount
 		let key = 'swiperList[' + index + ']';
@@ -104,7 +106,7 @@ Page({
 		this._freshing = true
 		let index = this.data.tabCur
 		let id = this.data.wechatTree[index].id
-		this.getArticleList(0, id)
+		this.getArticleList(1, id, true)
 		this._freshing = false
 	},
 
@@ -112,9 +114,8 @@ Page({
 	loadMore: function () {
 		let index = this.data.tabCur
 		let id = this.data.wechatTree[index].id
-		console.log(this.data.swiperList[index])
 		if (this.data.swiperList[index].curPage < this.data.swiperList[index].pageCount) {
-			this.getArticleList(this.data.swiperList[index].curPage, id)
+			this.getArticleList(this.data.swiperList[index].curPage, id, false)
 		} else {
 			wx.showToast({
 				title: '没有更多数据啦~',

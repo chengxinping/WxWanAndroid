@@ -9,7 +9,7 @@
 
 <!-- viewpager -->
 
-<swiper class="swiper" current="{{tabCur}}" bindchange="swiperChange">
+<swiper class="swiper" current="{{tabCur}}" bindanimationfinish="swiperChange">
 	<!-- 每个page -->
 	<swiper-item wx:for="{{swiperList}}" wx:key="index">
 		<!-- page的每个item -->

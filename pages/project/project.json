@@ -2,5 +2,7 @@
   "navigationBarTitleText": "项目",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "light",
-  "usingComponents": {}
+  "usingComponents": {
+    "tab": "../components/tab/tab"
+  }
 }

@@ -1,2 +1,38 @@
 <!--pages/project/project.wxml-->
-<text>pages/project/project.wxml</text>
+<wxs src="../../app.wxs" module="app" />
+
+<!-- tab栏 -->
+<view class="tab">
+	<tab tab-cur="{{tabCur}}" tab-data="{{projectTree}}" color="#3F82FD" size="90" scroll bindchange="tabChange">
+	</tab>
+</view>
+
+<swiper class="swiper" current="{{tabCur}}" bindanimationfinish="swiperChange">
+	<swiper-item wx:for="{{swiperList}}" wx:key="index">
+		<scroll-view enable-back-to-top refresher-enabled class="scoll" scroll-y="true" scroll-anchoring="true" bindrefresherrefresh="refresh" refresher-triggered="{{isRefresh}}" bindscrolltolower="loadMore">
+
+			<view class="project" wx:for="{{item.datas}}" wx:key="index" bindtap="toArticleDetail" data-link="{{item.link}}" data-title="{{app.formatHtml(item.title)}}">
+
+
+				<image class="pic" src="{{item.envelopePic}}"></image>
+				<view class="content">
+					<view class="tags">
+						<view class="new" hidden="{{!item.fresh}}">新</view>
+						<view class="author">{{item.author||item.shareUser}}</view>
+						<view class="date">{{item.niceDate}}</view>
+					</view>
+					<view class="title">{{app.formatHtml(item.title)}}</view>
+					<view class="desc">{{app.formatHtml(item.desc)}}</view>
+					<view class="tags">
+						<view class="author">{{item.superChapterName}} / {{item.chapterName}}</view>
+						<view class="love">
+							<icon class="iconfont icon-grey-love" style="color:red;" wx:if="{{item.collect}}"></icon>
+							<icon class="iconfont icon-grey-love" wx:else style="color:grey;"></icon>
+						</view>
+					</view>
+				</view>
+
+			</view>
+		</scroll-view>
+	</swiper-item>
+</swiper>
